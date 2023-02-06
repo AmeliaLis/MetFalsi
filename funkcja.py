@@ -9,8 +9,6 @@ b) przykład z zajęć
 import math
 from sympy import *
 
-
-
 def pochodna(funkcja):
     return diff((funkcja),x)
 
@@ -33,16 +31,20 @@ class MetodaFalsi:
         wartosc = funkcja.subs(x,xi)
         return wartosc
 
-    def interuj_roznica(self, eps, wyswietlaj = 1):
+    def iteruj_roznica(self, eps, wyswietlaj = 1):
         self.eps = eps
 
         self.x = []
         # ustalam punkt nieruchomy - obliczam wartosci 2. pochodnej
         wart_poch2_a = MetodaFalsi.wartosc(self.pochodna2,self.a)
+        print(f"Wartość drugiej pochodnej w punkcie a: ",wart_poch2_a)
         wart_poch2_b = MetodaFalsi.wartosc(self.pochodna2,self.b)
+        print(f"Wartość drugiej pochodnej w punkcie b: ",wart_poch2_b)
         # obliczam wartosci na krancach aktualnego przedzialu
         wart_a = MetodaFalsi.wartosc(self.funkcja,self.a)
+        print(f"Wartość w punkcie a: ", wart_a)
         wart_b = MetodaFalsi.wartosc(self.funkcja,self.b)
+        print(f"Wartość w punkcie b: ",wart_b)
         # sprawdzam, ktory z punktow powinien byc nieruchomy (nazywam go const)
         # punkt startowy - oznaczam x_akt
         if wart_a * wart_poch2_a > 0:
@@ -98,3 +100,4 @@ funkcja=(ln(x) + 2*cos(x))
 pochodna1 = pochodna(funkcja)
 print(pochodna1)
 print(wartosc(pochodna1,xi=1.8965))
+print(met_falsi.iteruj_roznica(0.01))
