@@ -4,6 +4,7 @@ a) f(x) = lnx + 2cosx
 przedział x [1,3]
 
 b) g(x) = 0.25*x**3 - 3*(x**2) + 6*x + 2
+przedział x [2,3]
 """
 
 import math
@@ -90,6 +91,7 @@ class MetodaFalsi:
         roznica = 100.0
         while roznica > eps:
             k += 1
+
             # obliczam wartosc w punkcie x_akt
             wart_x = MetodaFalsi.wartosc(self.funkcja,x_akt)
             x_akt -= wart_x * (x_akt-const) / (wart_x-wart_const) 
@@ -97,6 +99,7 @@ class MetodaFalsi:
             if wyswietlaj == 1:
                 print(f"Iteracja-{k}, przyblizone x0 = {x_akt}, f(x0) = {wartosc(self.funkcja, x_akt)}")
             roznica = abs(self.x[-1] - self.x[-2])
+
             # jezeli przkroczono maksymalna liczbe rozwiazan - przerywam
             if k == self.kmax:
                 print("Przekroczono maksymalna liczbe iteraji.")
@@ -107,23 +110,10 @@ class MetodaFalsi:
 
 x = symbols('x')
 
-
-#testy funkcjonalnsoci definicji utworzonych
-#funkcja=(ln(x) + 2*cos(x))
-# pochodna1 = pochodna(funkcja)
-# print(wartosc(pochodna1,1.0))
-# print(wartosc(pochodna1,3.0))
-# print(wartosc(funkcja,1.0))
-# print(wartosc(funkcja,3.0))
-# print(pochodna1)
-# print(wartosc(funkcja,xi=1.8965))
-
 met_falsi_a = MetodaFalsi((ln(x) + 2*cos(x)),1.0,3.0)
 met_falsi_b = MetodaFalsi((0.25*x**3 - 3*(x**2) + 6*x +2),2.0,3.0)
-#met_falsi_c = MetodaFalsi((cos((3*x)/7)), 3.2, 3.7)
+
 
 met_falsi_a.iteruj_roznica(0.0001)
 print("\n")
-met_falsi_b.iteruj_roznica(0.0001)
-print("\n")
-#met_falsi_c.iteruj_roznica(0.0001)
+print(met_falsi_b.iteruj_roznica(0.0001))

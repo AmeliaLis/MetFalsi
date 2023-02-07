@@ -1,9 +1,9 @@
 import math
-MAX_ITERACJA=100
-# Miejsce na wpisanie ciała funkcji
+MAX_ITERACJA=10000
+# f(x) to miejsce na wpisanie ciała funkcji
 # a) f(x) = lnx + 2cosx, czyli math.log(x,math.e) + 2*math.cos(x), która w przedziale [1,3] nie jest wypukła
 # b) g(x) = 0.25x^3 - 3x^2 + 6x + 2, czyli 0.25*x**3 - 3*(x**2) + 6*x +2, która w przedziale [2,3] jest wypukła
-# c) h(x) = cos((3x)/7), czyli math.cos((3*x)/7)
+
 def f(x):
     return math.log(x,math.e) + 2*math.cos(x)
 
@@ -24,14 +24,18 @@ def regulaFalsi(a,b,eps):
 
     while roznica and iteracja!=MAX_ITERACJA:
         x0 = (a * f(b) - b * f(a)) / (f(b) - f(a))
-        print('Iteracja-%d, przybliżone x0 = %0.40f; f(x0) = %0.40f' % (iteracja, x0, f(x0)))
+        print('Iteracja-%d, przybliżenie x0 = %0.40f; f(x0) = %0.40f' % (iteracja, x0, f(x0)))
 
+        # lub x0 = b  -(b * f(b) - a * f(b)) / (f(b) - f(a)) - on jest taki sam jak ten wyzej, tylko inaczej zapisany
 
+        # sprawdzenie czy obliczone przybliżenie jest już miejscem zerowym
         if f(x0) == 0:
             print("Przybliżenie jest bliskie lub równe 0.")
+            iteracja += 1
             break
 
-        # sprawdzam, czy wartosc funkcji w nowym miejscu zerwoym funkcji liniowej (stycznej) jest przeciwnego znaku jak wartość wczesniej ustalonego krancu
+
+        # sprawdzenie, czy wartosc funkcji w nowym miejscu zerowym funkcji liniowej (stycznej) jest przeciwnego znaku jak wartość poprzednio ustalonego krancu
         if f(a) * f(x0) < 0:
             b = x0
         else:
@@ -39,7 +43,7 @@ def regulaFalsi(a,b,eps):
         
         tablica_x.append(x0)
         iteracja = iteracja + 1
-        roznica = abs(f(tablica_x[-1])-f(tablica_x[-2])) > eps 
+        roznica = abs(tablica_x[-1]-tablica_x[-2]) > eps 
         # procedura będzie wykonywać się do momentu, aż róznica dwóch kolejnych przbylizen x0 będie mniejsza od eps
 
     print('\nOstateczne przybliżenie x0 - %0.40f, iteracje - %d' % (x0,iteracja-1))
@@ -57,4 +61,4 @@ if f(a) * f(b) > 0.0:
     print('Wartości krańców tego przedziału nie są przeciwnych znaków.')
     print('Wpisz ponownie poprawny przedział.')
 else:
-    regulaFalsi(a,b,0.0000000001) # wywołanie procedury reguły falsi
+    regulaFalsi(a,b,0.0001) # wywołanie procedury reguły falsi
